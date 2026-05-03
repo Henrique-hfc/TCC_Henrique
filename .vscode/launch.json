@@ -25,5 +25,19 @@
             "program": "SchmmerCalc.py",
             "console": "integratedTerminal",
         },
+        {
+            "name": "SchmmerPol2",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "SchmmerPol2.py",
+            "console": "integratedTerminal",
+        },
+        {
+            "name": "SchmmerPow",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "SchmmerPow.py",
+            "console": "integratedTerminal",
+        },
     ]
 }
