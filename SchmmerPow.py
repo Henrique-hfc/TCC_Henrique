@@ -12,8 +12,8 @@ a      = (0.25 * 25.4e-3) / 2  # raio do transdutor [m]  (0.25 pol → m)
 cp     = 5900.0                # velocidade da onda longitudinal no aço [m/s]
 fs     = 125e6                 # taxa de amostragem [Hz]
 eps_f  = 0.05                  # fração ε/max|F| para o filtro de Wiener
-f_min, f_max = 2.5, 7.5      # banda útil de análise [MHz]
-R_front      = 0.6       
+f_min, f_max = 2.4, 6.2      # banda útil de análise [MHz]
+R_front      = 0.52       
 
 # Janelas de cada eco
 ECO1 = (900,  1250)
