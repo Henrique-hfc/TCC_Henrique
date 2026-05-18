@@ -8,6 +8,16 @@ sim_real2 = file_m2k.read("./Mono_5MHz_imersão.m2k", 5, 0.5, 'Gaussian')
 ascan_real_n = (sim_real2.ascan_data[:,0,0,0])
 real_envelope_n = envelope(ascan_real_n)
 
+<<<<<<< HEAD
+=======
+sim_real = file_m2k.read("./Mono_5MHz_ferro.m2k", 5, 0.5, 'Gaussian')
+ascan_real = (sim_real.ascan_data[900:,0,0,0])
+
+sim_real2 = file_m2k.read("./Mono_5MHz_imersão.m2k", 5, 0.5, 'Gaussian')    
+ascan_real_n = (sim_real2.ascan_data[:,0,0,0])
+real_envelope_n = envelope(ascan_real_n)
+
+>>>>>>> a1f209a4bbcb551fa83a103b9ddc737781463bd4
 sim_civa = file_civa.read("./mono_aco_imersao_2p46g3.civa")
 ascan_civa = sim_civa.ascan_data_sum[:,0,0]
 civa_envelope = envelope(ascan_civa)
@@ -28,6 +38,7 @@ plt.ylabel('Amplitude normalizada')
 plt.title('Ensaio Real Env 5 MHz')
 plt.legend()
 
+<<<<<<< HEAD
 plt.figure(2)
 plt.plot(t_real, ascan_real_n[:])
 plt.xlabel('Tempo (µs)')
@@ -42,6 +53,19 @@ plt.plot(t_civa_slice, civa_abs, 'r', label='Ensaio CIVA')
 plt.xlabel('Tempo (µs)')
 plt.ylabel('Amplitude normalizada')
 plt.title('AScan CIVA ENVELOPE')
+=======
+plt.plot(real_envelope_n[0,:]/np.max(real_envelope_n[0,:]),'b', label='Ensaio Real ')
+plt.title('Ensaio Real Env 5 MHz')
+
+plt.figure(2)
+plt.plot(ascan_real_n[:])
+plt.title('Ensaio Real 5 MHz Imersão')
+
+plt.figure(3)
+civa_abs = civa_envelope[0,1195:]/np.max(civa_envelope[0,:])
+plt.plot(civa_abs,'r', label='Ensaio CIVA')
+plt.title("AScan CIVA ENVELOPE")
+>>>>>>> a1f209a4bbcb551fa83a103b9ddc737781463bd4
 plt.legend()
 
 plt.show()
