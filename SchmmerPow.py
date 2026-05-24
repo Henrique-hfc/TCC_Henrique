@@ -108,6 +108,7 @@ e2aD = (aB * aF) / (aF**2 + eps**2)
 alpha_np_m = -np.log(e2aD) / (2.0 * D2)   # [Np/m]
 
 
+
 # =============================================================================
 # 8. BANDA E CONVERSÃO DE UNIDADES — Schmerr Eq. (9.6)
 # =============================================================================
@@ -116,11 +117,17 @@ fMHz = freqs / 1e6
 mask = (fMHz >= f_min) & (fMHz <= f_max)
 
 f_band   = fMHz[mask]
+alpha_np_mm = alpha_np_m[mask] / 1e3            # [Np/mm]
 alpha_db = (alpha_np_m[mask] / 1e3) * 8.686   # [dB/mm]
+
+np.save("alpha_Np_m.npy",  alpha_np_m[mask])   # [Np/m]
+np.save("alpha_Np_mm.npy", alpha_np_mm)         # [Np/mm]
+np.save("alpha_dB_mm.npy", alpha_db)            # [dB/mm]
+np.save("freq_band_MHz.npy", f_band)            # frequencias da banda [MHz]
 
 
 # =============================================================================
-# AJUSTES DA CURVA α(f) — Schmerr Seção 9.2.2
+# AJUSTES DA CURVA α(f) 
 # =============================================================================
 
 # Grau 1
@@ -156,18 +163,10 @@ print(f"  α(f) = {coefs3[0]:.6e}·f³ + {coefs3[1]:.6e}·f² + {coefs3[2]:.6e}�
 # =============================================================================
 
 plt.figure(figsize=(11, 5))
-plt.plot(f_band, alpha_db,       'k-',  lw=1.5, alpha=0.6, label='Medido')
-plt.plot(f_band, alpha_fit1,     'g--', lw=2.0,
-         label=f'Grau 1: {coefs1[0]:.3e}·f + {coefs1[1]:.3e}')
-# plt.plot(f_band, alpha_fit2,     'r-',  lw=2.0,
-#          label=f'Grau 2: {coefs2[0]:.3e}·f² + {coefs2[1]:.3e}·f + {coefs2[2]:.3e}')
-plt.plot(f_band, alpha_fit3,     'm-',  lw=2.0,
-         label=f'Grau 3: {coefs3[0]:.3e}·f³ + {coefs3[1]:.3e}·f² + {coefs3[2]:.3e}·f + {coefs3[3]:.3e}')
-plt.plot(f_band, alpha_fit5,     'c-',  lw=2.0,
-         label=f'Grau 5: {coefs5[0]:.3e}·f⁵ + {coefs5[1]:.3e}·f⁴ + {coefs5[2]:.3e}·f³ + {coefs5[3]:.3e}·f² + {coefs5[4]:.3e}·f + {coefs5[5]:.3e}')
+plt.plot(f_band, alpha_np_mm,       'k-',  lw=1.5, alpha=0.6, label='Medido')
 
 plt.xlabel('Frequência (MHz)')
-plt.ylabel('α (dB/mm)')
+plt.ylabel('α (Np/mm)')
 plt.title(f'Atenuação Ultrassônica ')
 plt.grid(True, alpha=0.3)
 plt.legend(fontsize=8)
