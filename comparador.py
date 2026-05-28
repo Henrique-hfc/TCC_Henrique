@@ -4,69 +4,41 @@ from scipy.signal import envelope
 import matplotlib.pyplot as plt
 from scipy.io import loadmat
 
-sim_real2 = file_m2k.read("./Mono_5MHz_imersão.m2k", 5, 0.5, 'Gaussian')    
-ascan_real_n = (sim_real2.ascan_data[:,0,0,0])
-real_envelope_n = envelope(ascan_real_n)
+# --- Ensaio real ---
+sim_real2 = file_m2k.read("./Mono_5MHz_ferro.m2k", 5, 0.5, 'Gaussian')
+ascan_real_env = envelope(sim_real2.ascan_data[300:, 0, 0, 0])
+real_envelope_n = ascan_real_env[0, :] / np.max(ascan_real_env[0, :])
 
-<<<<<<< HEAD
-=======
-sim_real = file_m2k.read("./Mono_5MHz_ferro.m2k", 5, 0.5, 'Gaussian')
-ascan_real = (sim_real.ascan_data[900:,0,0,0])
+# --- Simulação viscoelástica ---
+sim_visco = np.load("result_sim_Qp5MHz.npy")
+ascan_visco = envelope(sim_visco[750:, 0]) # ajuste inicio da fonte 250 amostras
+visco_envelope_n = ascan_visco[0, :] / np.max(ascan_visco[0, :])
 
-sim_real2 = file_m2k.read("./Mono_5MHz_imersão.m2k", 5, 0.5, 'Gaussian')    
-ascan_real_n = (sim_real2.ascan_data[:,0,0,0])
-real_envelope_n = envelope(ascan_real_n)
+# --- Simulação viscoelástica Qp media ---
+sim_media = np.load("result_sim_media145.npy") #2.75-5.2MHz
+ascan_media = envelope(sim_media[750:, 0])
+visco_media_envelope_n = ascan_media[0, :] / np.max(ascan_media[0, :])
 
->>>>>>> a1f209a4bbcb551fa83a103b9ddc737781463bd4
-sim_civa = file_civa.read("./mono_aco_imersao_2p46g3.civa")
-ascan_civa = sim_civa.ascan_data_sum[:,0,0]
-civa_envelope = envelope(ascan_civa)
+# --- Simulação viscoelástica Qp media e f0 5 MHz ---
+sim_media_nn = np.load("result_sim_media145_5MHz.npy") #2.75-5.2MHz
+ascan_media_nn = envelope(sim_media_nn[750:, 0])
+visco_media_envelope_nn = ascan_media_nn[0, :] / np.max(ascan_media_nn[0, :])
 
-periodo_us = 60  # µs
+# --- Vetores de tempo (em µs) ---
+dt_real = 8e-3    # 8 ns = 0,008 µs
+dt_visco = 4e-3   # 4 ns = 0,004 µs
 
-n_real = len(ascan_real_n)          # 7500 amostras
-n_civa = len(ascan_civa)            # 9599 amostras
+t_real = np.arange(len(real_envelope_n)) * dt_real
+t_visco = np.arange(len(visco_envelope_n)) * dt_visco
 
-t_real = np.linspace(0, periodo_us, n_real)   # µs
-t_civa = np.linspace(0, periodo_us, n_civa)   # µs
-
-
-plt.figure(1)
-plt.plot(t_real, real_envelope_n[0,:] / np.max(real_envelope_n[0,:]), 'b', label='Ensaio Real')
+# --- Plot sobreposto na mesma escala ---
+plt.figure(figsize=(10, 5))
+plt.plot(t_real, real_envelope_n, 'b', label='Ensaio Real')
+plt.plot(t_visco, visco_envelope_n, 'r', label='Simulação Visco Qp em 5 Mhz')
+plt.plot(t_visco, visco_media_envelope_n, 'g', label='Simulação Visco Qp Média')
+plt.plot(t_visco, visco_media_envelope_nn, 'm', label='Simulação Visco Qp Média 5 MHz')
 plt.xlabel('Tempo (µs)')
 plt.ylabel('Amplitude normalizada')
-plt.title('Ensaio Real Env 5 MHz')
 plt.legend()
-
-<<<<<<< HEAD
-plt.figure(2)
-plt.plot(t_real, ascan_real_n[:])
-plt.xlabel('Tempo (µs)')
-plt.ylabel('Amplitude')
-plt.title('Ensaio Real 5 MHz Imersão')
-
-civa_abs = civa_envelope[0, 4000:] / np.max(civa_envelope[0, :])
-t_civa_slice = t_civa[4000:]        # mesmo recorte no eixo de tempo
-
-plt.figure(3)
-plt.plot(t_civa_slice, civa_abs, 'r', label='Ensaio CIVA')
-plt.xlabel('Tempo (µs)')
-plt.ylabel('Amplitude normalizada')
-plt.title('AScan CIVA ENVELOPE')
-=======
-plt.plot(real_envelope_n[0,:]/np.max(real_envelope_n[0,:]),'b', label='Ensaio Real ')
-plt.title('Ensaio Real Env 5 MHz')
-
-plt.figure(2)
-plt.plot(ascan_real_n[:])
-plt.title('Ensaio Real 5 MHz Imersão')
-
-plt.figure(3)
-civa_abs = civa_envelope[0,1195:]/np.max(civa_envelope[0,:])
-plt.plot(civa_abs,'r', label='Ensaio CIVA')
-plt.title("AScan CIVA ENVELOPE")
->>>>>>> a1f209a4bbcb551fa83a103b9ddc737781463bd4
-plt.legend()
-
+plt.grid(True)
 plt.show()
-print("a")
