@@ -16,10 +16,12 @@ visco_envelope_n = ascan_visco[0, :] / np.max(ascan_visco[0, :])
 
 # --- Simulação viscoelástica Qp media ---
 sim_media = np.load("result_sim_media145.npy") 
+sim_media = np.load("result_sim_media145.npy") 
 ascan_media = envelope(sim_media[750:, 0])
 visco_media_envelope_n = ascan_media[0, :] / np.max(ascan_media[0, :])
 
 # --- Simulação viscoelástica Qp media e f0 5 MHz ---
+sim_media_nn = np.load("result_sim_media145_5MHz.npy") 
 sim_media_nn = np.load("result_sim_media145_5MHz.npy") 
 ascan_media_nn = envelope(sim_media_nn[750:, 0])
 visco_media_envelope_nn = ascan_media_nn[0, :] / np.max(ascan_media_nn[0, :])
