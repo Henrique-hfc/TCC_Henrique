@@ -39,5 +39,33 @@
             "program": "SchmmerPow.py",
             "console": "integratedTerminal",
         },
+        {
+            "name": "Qcalc",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "Qcalc.py",
+            "console": "integratedTerminal",
+        },
+        {
+            "name": "TauCalc",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "TauCalc.py",
+            "console": "integratedTerminal",
+        },
+        {
+            "name": "TauCalc_v2",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "TauCalc_v2.py",
+            "console": "integratedTerminal",
+        },
+        {
+            "name": "MultiExp",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "multiexp.py",
+            "console": "integratedTerminal",
+        },
     ]
 }
