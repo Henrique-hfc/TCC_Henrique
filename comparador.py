@@ -33,6 +33,30 @@ visco_mediaQ_envelope = ascan_mediaQ[0, :] / np.max(ascan_mediaQ[0, :])
 sim_mediaA = np.load("result_media_reg.npy") 
 ascan_mediaA = envelope(sim_mediaA[750:, 0])
 visco_mediaA_envelope = ascan_mediaA[0, :] / np.max(ascan_mediaA[0, :])
+# --- Simulação viscoelástica média Q ---
+sim_mediaQ = np.load("result_mediaQ_reg.npy") 
+ascan_mediaQ = envelope(sim_mediaQ[750:, 0])
+visco_mediaQ_envelope = ascan_mediaQ[0, :] / np.max(ascan_mediaQ[0, :])
+
+# --- Simulação viscoelástica média alfa ---
+sim_mediaA = np.load("result_media_reg.npy") 
+ascan_mediaA = envelope(sim_mediaA[750:, 0])
+visco_mediaA_envelope = ascan_mediaA[0, :] / np.max(ascan_mediaA[0, :])
+
+# --- Simulação viscoelástica considerando Q invidiual coef maior 1 ---
+sim_Qin = np.load("result_maior1.npy") 
+ascan_Qin = envelope(sim_Qin[750:, 0])
+visco_Qin_envelope = ascan_Qin[0, :] / np.max(ascan_Qin[0, :])
+
+# --- Simulação viscoelástica considerando Q invidiual coef maior 2 ---
+sim_Qin2 = np.load("result_maior2.npy") 
+ascan_Qin2 = envelope(sim_Qin2[750:, 0])
+visco_Qin_envelope2 = ascan_Qin2[0, :] / np.max(ascan_Qin2[0, :])
+
+# --- Simulação viscoelástica alternativa ---
+sim_alt = np.load("result_media_alt.npy") 
+ascan_alt = envelope(sim_alt[750:, 0])
+visco_alt_envelope = ascan_alt[0, :] / np.max(ascan_alt[0, :])
 
 # --- Simulação viscoelástica considerando Q invidiual coef maior 1 ---
 sim_Qin = np.load("result_maior1.npy") 
@@ -61,6 +85,10 @@ t_visco = np.arange(len(visco_envelope_n)) * dt_visco
 plt.figure(figsize=(10, 5))
 plt.plot(t_real, real_envelope_n, 'b', label='Ensaio Real')
 plt.plot(t_visco, visco_3z_envelope, 'c', label='Simulação Visco Qp 4.7 MHz, 3 Zeners')
+plt.plot(t_visco, visco_mediaQ_envelope, 'purple', label='Simulação Média Q')
+plt.plot(t_visco, visco_mediaA_envelope, 'pink', label='Simulação Média Alfa')
+plt.plot(t_visco, visco_Qin_envelope, 'orange', label='Simulação Q coef maior 1')
+plt.plot(t_visco, visco_Qin_envelope2, 'red', label='Simulação Q coef maior 2')
 plt.plot(t_visco, visco_mediaQ_envelope, 'purple', label='Simulação Média Q')
 plt.plot(t_visco, visco_mediaA_envelope, 'pink', label='Simulação Média Alfa')
 plt.plot(t_visco, visco_Qin_envelope, 'orange', label='Simulação Q coef maior 1')
